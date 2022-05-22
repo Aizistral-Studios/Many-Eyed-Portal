@@ -5,6 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class ConfigHandler {
 	private static ForgeConfigSpec config;
 	private static ForgeConfigSpec.BooleanValue eyeAbilitiesEnabled;
+	private static ForgeConfigSpec.BooleanValue eyesRemovable;
 
 	public static ForgeConfigSpec getConfig() {
 		if (config == null) {
@@ -16,6 +17,10 @@ public class ConfigHandler {
 					.comment("Whether or not Universal Clock should be displayed in the HUD.")
 					.define("clockHudEnabled", true);
 
+			eyesRemovable = builder
+					.comment("Whether or not eyes should be removable from End Portal Frames, allowing player to deactivate the portal.")
+					.define("eyesRemovable", false);
+
 			builder.pop();
 
 			config = builder.build();
@@ -26,6 +31,10 @@ public class ConfigHandler {
 
 	public static boolean areEyeAbilitiesEnabled() {
 		return eyeAbilitiesEnabled.get();
+	}
+
+	public static boolean areEyesRemovable() {
+		return eyesRemovable.get();
 	}
 
 }

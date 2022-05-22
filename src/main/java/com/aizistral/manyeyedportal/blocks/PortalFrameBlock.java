@@ -7,11 +7,21 @@ import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 import com.aizistral.manyeyedportal.ManyEyedPortal;
+import com.aizistral.manyeyedportal.handlers.ConfigHandler;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EndPortalFrameBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -24,6 +34,7 @@ import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class PortalFrameBlock extends EndPortalFrameBlock {
 	private static BlockPattern portalShape;
@@ -34,6 +45,46 @@ public class PortalFrameBlock extends EndPortalFrameBlock {
 				.lightLevel((state) -> 1).strength(-1.0F, 3600000.0F).noDrops());
 		this.setRegistryName(new ResourceLocation(ManyEyedPortal.MODID, "portal_frame_" + index));
 		this.index = index;
+	}
+
+	@Override
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (ConfigHandler.areEyesRemovable())
+			if (player.getItemInHand(hand).isEmpty() && state.hasProperty(HAS_EYE) && state.getValue(HAS_EYE)) {
+				if (level.isClientSide)
+					return InteractionResult.SUCCESS;
+
+				BlockPattern.BlockPatternMatch match = PortalFrameBlock.getPortalShape()
+						.find(level, pos);
+
+				if (match != null) {
+					BlockPos blockpos1 = match.getFrontTopLeft().offset(-3, 0, -3);
+
+					for (int i = 0; i < 3; ++i) {
+						for(int j = 0; j < 3; ++j) {
+							BlockPos portalPos = blockpos1.offset(i, 0, j);
+
+							if (level.getBlockState(portalPos).is(Blocks.END_PORTAL)) {
+								level.setBlock(portalPos, Blocks.AIR.defaultBlockState(), 2);
+							}
+						}
+					}
+
+					level.playSound(null, blockpos1.offset(1, 0, 1), SoundEvents.BEACON_DEACTIVATE, SoundSource.BLOCKS, 4, 1);
+				}
+
+				BlockState newState = state.setValue(PortalFrameBlock.HAS_EYE, false);
+				Block.pushEntitiesUp(state, newState, level, pos);
+				level.setBlock(pos, newState, 2);
+				level.updateNeighbourForOutputSignal(pos, newState.getBlock());
+				level.levelEvent(1503, pos, 0);
+
+				player.setItemInHand(hand, new ItemStack(ManyEyedPortal.PORTAL_EYES[this.index-1]));
+
+				return InteractionResult.SUCCESS;
+			}
+
+		return InteractionResult.PASS;
 	}
 
 	public static BlockPattern getPortalShape() {
