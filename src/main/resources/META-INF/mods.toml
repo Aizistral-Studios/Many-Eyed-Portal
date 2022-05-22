@@ -1,0 +1,11 @@
+license="WTFPL"
+modLoader="javafml"
+loaderVersion="[31,)"
+[[mods]]
+modId="manyeyedportal"
+version="1.0.0"
+displayName="Many-Eyed Portal"
+authors="Aizistral"
+description='''
+None
+'''
