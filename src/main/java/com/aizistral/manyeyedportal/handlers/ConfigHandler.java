@@ -4,7 +4,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ConfigHandler {
 	private static ForgeConfigSpec config;
-	private static ForgeConfigSpec.BooleanValue clockHUDEnabled;
+	private static ForgeConfigSpec.BooleanValue eyeAbilitiesEnabled;
 
 	public static ForgeConfigSpec getConfig() {
 		if (config == null) {
@@ -12,7 +12,7 @@ public class ConfigHandler {
 
 			builder.comment("Options that allow to disable/enable Univesal Clock and adjust it").push("Generic Config");
 
-			clockHUDEnabled = builder
+			eyeAbilitiesEnabled = builder
 					.comment("Whether or not Universal Clock should be displayed in the HUD.")
 					.define("clockHudEnabled", true);
 
@@ -22,6 +22,10 @@ public class ConfigHandler {
 		}
 
 		return config;
+	}
+
+	public static boolean areEyeAbilitiesEnabled() {
+		return eyeAbilitiesEnabled.get();
 	}
 
 }

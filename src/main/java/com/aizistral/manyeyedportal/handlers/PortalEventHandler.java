@@ -5,7 +5,7 @@ import static com.aizistral.manyeyedportal.handlers.ConfigHandler.*;
 import java.util.Calendar;
 import java.util.Random;
 
-import com.aizistral.manyeyedportal.UniversalClockHUD;
+import com.aizistral.manyeyedportal.ManyEyedPortal;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.ChatFormatting;

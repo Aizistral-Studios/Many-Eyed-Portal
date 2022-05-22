@@ -1,11 +1,22 @@
 package com.aizistral.manyeyedportal;
 
+import com.aizistral.manyeyedportal.blocks.PortalFrameBlock;
 import com.aizistral.manyeyedportal.handlers.ConfigHandler;
 import com.aizistral.manyeyedportal.handlers.PortalEventHandler;
+import com.aizistral.manyeyedportal.handlers.SuperpositionHandler;
+import com.aizistral.manyeyedportal.items.PortalEyeItem;
 
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EndPortalFrameBlock;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -16,11 +27,14 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(UniversalClockHUD.MODID)
-public class UniversalClockHUD {
+@Mod(ManyEyedPortal.MODID)
+public class ManyEyedPortal {
 	public static final String MODID = "manyeyedportal";
 
-	public UniversalClockHUD() {
+	public static final PortalEyeItem[] PORTAL_EYES = new PortalEyeItem[12];
+	public static final PortalFrameBlock[] FRAME_BLOCKS = new PortalFrameBlock[12];
+
+	public ManyEyedPortal() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
@@ -46,11 +60,36 @@ public class UniversalClockHUD {
 	}
 
 	private void enqueueIMC(InterModEnqueueEvent event) {
-		// NO-OP
+		SuperpositionHandler.registerCurioType("charm", 1, false, null);
 	}
 
 	private void processIMC(InterModProcessEvent event) {
 		// NO-OP
+	}
+
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = MODID)
+	public static class RegistryEvents {
+
+		@SubscribeEvent
+		public static void registerBlocks(RegistryEvent.Register<Block> event) {
+			for (int i = 0; i < FRAME_BLOCKS.length; i++) {
+				event.getRegistry().register(FRAME_BLOCKS[i] = new PortalFrameBlock(i + 1));
+			}
+		}
+
+		@SubscribeEvent
+		public static void registerItems(RegistryEvent.Register<Item> event) {
+			for (int i = 0; i < FRAME_BLOCKS.length; i++) {
+				event.getRegistry().register(new BlockItem(FRAME_BLOCKS[i], new Item.Properties()
+						.rarity(Rarity.EPIC).stacksTo(64).fireResistant().tab(CreativeModeTab.TAB_DECORATIONS))
+						.setRegistryName(MODID, "portal_frame_" + (i + 1)));
+			}
+
+			for (int i = 0; i < PORTAL_EYES.length; i++) {
+				event.getRegistry().register(PORTAL_EYES[i] = new PortalEyeItem(i + 1));
+			}
+		}
+
 	}
 
 }
