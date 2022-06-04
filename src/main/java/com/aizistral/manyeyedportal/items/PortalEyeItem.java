@@ -38,7 +38,7 @@ public class PortalEyeItem extends Item implements ICurioItem {
 	private final UUID modifierID;
 
 	public PortalEyeItem(int index) {
-		super(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1).fireResistant().tab(CreativeModeTab.TAB_MISC));
+		super(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1).fireResistant().tab(ManyEyedPortal.CREATIVE_TAB));
 		this.setRegistryName(new ResourceLocation(ManyEyedPortal.MODID, "portal_eye_" + index));
 		this.index = index;
 		this.modifierID = Mth.createInsecureUUID(new Random(index * 16 + index * 4 + index));

@@ -14,6 +14,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EndPortalFrameBlock;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,6 +35,13 @@ public class ManyEyedPortal {
 
 	public static final PortalEyeItem[] PORTAL_EYES = new PortalEyeItem[12];
 	public static final PortalFrameBlock[] FRAME_BLOCKS = new PortalFrameBlock[12];
+	public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab("manyEyedPortalTab") {
+		@Override
+		@OnlyIn(Dist.CLIENT)
+		public ItemStack makeIcon() {
+			return new ItemStack(PORTAL_EYES[0]);
+		}
+	};
 
 	public ManyEyedPortal() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -81,7 +90,7 @@ public class ManyEyedPortal {
 		public static void registerItems(RegistryEvent.Register<Item> event) {
 			for (int i = 0; i < FRAME_BLOCKS.length; i++) {
 				event.getRegistry().register(new BlockItem(FRAME_BLOCKS[i], new Item.Properties()
-						.rarity(Rarity.EPIC).stacksTo(64).fireResistant().tab(CreativeModeTab.TAB_DECORATIONS))
+						.rarity(Rarity.EPIC).stacksTo(64).fireResistant().tab(ManyEyedPortal.CREATIVE_TAB))
 						.setRegistryName(MODID, "portal_frame_" + (i + 1)));
 			}
 
