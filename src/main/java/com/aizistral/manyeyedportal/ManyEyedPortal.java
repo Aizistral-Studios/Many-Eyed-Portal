@@ -53,7 +53,7 @@ public class ManyEyedPortal {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new PortalEventHandler());
 
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigHandler.getConfig(), "ManyEyedPortal.toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHandler.getConfig(), "ManyEyedPortal.toml");
 	}
 
 	private void onLoadComplete(FMLLoadCompleteEvent event) {

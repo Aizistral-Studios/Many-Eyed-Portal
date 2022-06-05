@@ -11,11 +11,11 @@ public class ConfigHandler {
 		if (config == null) {
 			ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
-			builder.comment("Options that allow to disable/enable Univesal Clock and adjust it").push("Generic Config");
+			builder.comment("Main options for the mod").push("Generic Config");
 
 			eyeAbilitiesEnabled = builder
-					.comment("Whether or not Universal Clock should be displayed in the HUD.")
-					.define("clockHudEnabled", true);
+					.comment("Whether or portal eyes should have special abilities when worn.")
+					.define("eyeAbilitiesEnabled", true);
 
 			eyesRemovable = builder
 					.comment("Whether or not eyes should be removable from End Portal Frames, allowing player to deactivate the portal.")
