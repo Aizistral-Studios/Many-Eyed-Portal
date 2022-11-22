@@ -9,7 +9,6 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
 		classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-1.0.0-SNAPSHOT'
     }
 }
 
@@ -19,7 +18,6 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'com.matthewprenger.cursegradle'
-apply plugin: 'org.spongepowered.mixin'
 
 println("Specifying project version/group/archivesBaseName...")
 version = "${mod_version}"
@@ -36,15 +34,10 @@ println(" - JVM Version: " + System.getProperty('java.vm.version'))
 println(" - Vendor: " + System.getProperty('java.vendor'))
 println(" - OS Archetype: " + System.getProperty('os.arch'))
 
-mixin {
-	println("Specifying refmaps for Mixin...")
-	
-    add sourceSets.main, "manyeyedportal.refmap.json"
-}
 
 minecraft {
 	println("Specifying MCP mappings...")
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'official', version: "${version_mc}"
 	println("Specifying Access Transformer configuration...")	
 	// accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 	
@@ -67,7 +60,7 @@ minecraft {
 
         server {
 			properties 'mixin.env.disableRefMap': 'true'
-            workingDirectory project.file('run')
+            workingDirectory project.file('runServer')
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
@@ -86,11 +79,9 @@ sourceSets.main.resources {
 }
 
 repositories {
-	println("Specifying repositories...")	
-	maven { url "file:///${project.projectDir}/deps/" }
+	println("Specifying repositories...")
 	maven {  url = "https://maven.theillusivec4.top/" } // curios
 	maven {  url = "https://maven.blamejared.com/" } // patchouli
-	maven {  url = "https://repo.spongepowered.org/maven" } // mixin
     maven {	 url "https://dvs1.progwml6.com/files/maven/" } // no idea
 }
 
@@ -99,9 +90,9 @@ dependencies {
 
 	// Minecraft & Forge
     minecraft "net.minecraftforge:forge:${version_forge}"
-	
-	compileOnly fg.deobf('generic:curios:forge-1.18.2-5.0.6.3')
-	compileOnly fg.deobf('generic:Patchouli:1.18.2-66')
+
+    implementation fg.deobf('top.theillusivec4.curios:curios-forge:1.19.2-5.1.1.0')
+    compileOnly fg.deobf('vazkii.patchouli:Patchouli-xplat:1.19.2-77')
 }
 
 
@@ -143,7 +134,8 @@ processResources {
 		'issue_tracker_url': issue_tracker_url, 
 		'mod_credits': mod_credits, 
 		'dep_forge': dep_forge, 
-		'dep_minecraft': dep_minecraft
+		'dep_minecraft': dep_minecraft,
+        'dep_curios' : dep_curios
 		into 'META-INF'
     }
 
@@ -168,9 +160,8 @@ curseforge {
         releaseType = "${curse_release}"
         changelogType = 'html'
         changelog = file('docs/changelog.html')
-		
-		addGameVersion '1.18'
-		addGameVersion '1.18.1'
+
+		addGameVersion '1.19.2'
 		
         //addArtifact(sourcesJar)
         //addArtifact(apiJar)
