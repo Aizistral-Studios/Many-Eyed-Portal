@@ -52,20 +52,21 @@ public class ManyEyedPortal {
 
 			if (event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) {
 				for (int i = 0; i < FRAME_BLOCKS.length; i++) {
-					int finalIndex = i;
-					event.register(ForgeRegistries.Keys.BLOCKS, new ResourceLocation(ManyEyedPortal.MODID, "portal_frame_" + i), () -> FRAME_BLOCKS[finalIndex] = new PortalFrameBlock(finalIndex + 1));
+					int finalIndex = i + 1;
+					event.register(ForgeRegistries.Keys.BLOCKS, new ResourceLocation(ManyEyedPortal.MODID, "portal_frame_" + finalIndex), () -> FRAME_BLOCKS[finalIndex - 1] = new PortalFrameBlock(finalIndex));
 				}
 			}
 			if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
+
 				for (int i = 0; i < FRAME_BLOCKS.length; i++) {
-					final int finalIndex = i;
-					event.register(ForgeRegistries.Keys.ITEMS, new ResourceLocation(MODID, "portal_frame_" + (i + 1)), () -> new BlockItem(FRAME_BLOCKS[finalIndex], new Item.Properties()
+					final int finalIndex = i + 1;
+					event.register(ForgeRegistries.Keys.ITEMS, new ResourceLocation(MODID, "portal_frame_" + finalIndex), () -> new BlockItem(FRAME_BLOCKS[finalIndex - 1], new Item.Properties()
 							.rarity(Rarity.EPIC).stacksTo(64).fireResistant().tab(ManyEyedPortal.CREATIVE_TAB)));
 				}
 
-				for (int i = 1; i < PORTAL_EYES.length + 1; i++) {
-					final int index = i;
-					event.register(ForgeRegistries.Keys.ITEMS, new ResourceLocation(ManyEyedPortal.MODID, "portal_eye_" + i), () -> PORTAL_EYES[index - 1] = new PortalEyeItem(index));
+				for (int i = 0; i < PORTAL_EYES.length; i++) {
+					final int index = i + 1;
+					event.register(ForgeRegistries.Keys.ITEMS, new ResourceLocation(ManyEyedPortal.MODID, "portal_eye_" + index), () -> PORTAL_EYES[index - 1] = new PortalEyeItem(index));
 				}
 			}
 		}
