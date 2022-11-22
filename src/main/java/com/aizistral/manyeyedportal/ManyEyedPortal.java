@@ -39,9 +39,7 @@ public class ManyEyedPortal {
 
 
 	private void enqueueIMC(InterModEnqueueEvent event) {
-		if (ModList.get().isLoaded("curios")) {
-			CuriosCompatHandler.registerCurioType("charm", 1, false, null);
-		}
+		CuriosCompatHandler.registerCurioType("charm", 1, false, null);
 	}
 
 
