@@ -86,8 +86,7 @@ sourceSets.main.resources {
 }
 
 repositories {
-	println("Specifying repositories...")	
-	maven { url "file:///${project.projectDir}/deps/" }
+	println("Specifying repositories...")
 	maven {  url = "https://maven.theillusivec4.top/" } // curios
 	maven {  url = "https://maven.blamejared.com/" } // patchouli
 	maven {  url = "https://repo.spongepowered.org/maven" } // mixin
@@ -99,9 +98,9 @@ dependencies {
 
 	// Minecraft & Forge
     minecraft "net.minecraftforge:forge:${version_forge}"
-	
-	compileOnly fg.deobf('generic:curios:forge-1.18.2-5.0.6.3')
-	compileOnly fg.deobf('generic:Patchouli:1.18.2-66')
+
+    compileOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.19.2-5.1.1.0')
+    compileOnly fg.deobf('vazkii.patchouli:Patchouli-xplat:1.19.2-77')
 }
 
 
