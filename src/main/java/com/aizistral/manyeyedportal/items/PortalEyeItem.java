@@ -1,25 +1,21 @@
 package com.aizistral.manyeyedportal.items;
 
-import java.util.Random;
 import java.util.UUID;
 
 import com.aizistral.manyeyedportal.ManyEyedPortal;
 import com.aizistral.manyeyedportal.blocks.PortalFrameBlock;
 import com.aizistral.manyeyedportal.handlers.ConfigHandler;
-import com.aizistral.manyeyedportal.handlers.SuperpositionHandler;
+import com.aizistral.manyeyedportal.handlers.CuriosCompatHandler;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -39,9 +35,8 @@ public class PortalEyeItem extends Item implements ICurioItem {
 
 	public PortalEyeItem(int index) {
 		super(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1).fireResistant().tab(ManyEyedPortal.CREATIVE_TAB));
-		this.setRegistryName(new ResourceLocation(ManyEyedPortal.MODID, "portal_eye_" + index));
 		this.index = index;
-		this.modifierID = Mth.createInsecureUUID(new Random(index * 16 + index * 4 + index));
+		this.modifierID = Mth.createInsecureUUID(RandomSource.create(index * 16L + index * 4L + index));
 	}
 
 	public int getIndex() {
@@ -55,7 +50,7 @@ public class PortalEyeItem extends Item implements ICurioItem {
 
 	@Override
 	public boolean canEquip(SlotContext slotContext, ItemStack stack) {
-		return !SuperpositionHandler.hasCurio(slotContext.entity(), this)
+		return !CuriosCompatHandler.hasCurio(slotContext.entity(), this)
 				&& ICurioItem.super.canEquip(slotContext, stack);
 	}
 

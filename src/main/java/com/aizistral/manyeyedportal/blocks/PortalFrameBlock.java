@@ -42,8 +42,7 @@ public class PortalFrameBlock extends EndPortalFrameBlock {
 
 	public PortalFrameBlock(int index) {
 		super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).sound(SoundType.GLASS)
-				.lightLevel((state) -> 1).strength(-1.0F, 3600000.0F).noDrops());
-		this.setRegistryName(new ResourceLocation(ManyEyedPortal.MODID, "portal_frame_" + index));
+				.lightLevel((state) -> 1).strength(-1.0F, 3600000.0F));
 		this.index = index;
 	}
 
