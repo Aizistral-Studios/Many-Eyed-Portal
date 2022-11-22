@@ -4,13 +4,8 @@ import com.aizistral.manyeyedportal.blocks.PortalFrameBlock;
 import com.aizistral.manyeyedportal.handlers.ConfigHandler;
 import com.aizistral.manyeyedportal.handlers.CuriosCompatHandler;
 import com.aizistral.manyeyedportal.items.PortalEyeItem;
-
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;

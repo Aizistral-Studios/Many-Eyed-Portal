@@ -1,19 +1,11 @@
 package com.aizistral.manyeyedportal.blocks;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import com.aizistral.manyeyedportal.ManyEyedPortal;
 import com.aizistral.manyeyedportal.handlers.ConfigHandler;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -35,6 +27,11 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
+
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
 
 public class PortalFrameBlock extends EndPortalFrameBlock {
 	private static BlockPattern portalShape;

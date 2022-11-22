@@ -1,14 +1,11 @@
 package com.aizistral.manyeyedportal.items;
 
-import java.util.UUID;
-
 import com.aizistral.manyeyedportal.ManyEyedPortal;
 import com.aizistral.manyeyedportal.blocks.PortalFrameBlock;
 import com.aizistral.manyeyedportal.handlers.ConfigHandler;
 import com.aizistral.manyeyedportal.handlers.CuriosCompatHandler;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -28,6 +25,8 @@ import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
+import java.util.UUID;
 
 public class PortalEyeItem extends Item implements ICurioItem {
 	private final int index;
